@@ -2,10 +2,12 @@ package com.example.adam.lostandfound;
 
 import org.json.JSONObject;
 
+import java.io.Serializable;
+
 /**
  * Created by Adam on 10/15/2015.
  */
-public class Item {
+public class Item implements Serializable{
 
     public int itemId;
     public int itemTypeId;

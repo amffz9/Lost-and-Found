@@ -1,9 +1,9 @@
 package com.example.adam.lostandfound;
 
 import android.app.ListActivity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 
@@ -39,7 +39,7 @@ public class MainActivity extends ListActivity {
         @Override
         protected String doInBackground(String... params) {
 
-            InputStream in = null;
+            InputStream in;
             try {
                 in = new URL(params[0]).openStream();
                 data = new Scanner(in).useDelimiter("\\A").next();
@@ -107,8 +107,10 @@ public class MainActivity extends ListActivity {
         super.onListItemClick(l, v, position, id);
 
 
-        //Intent intent = new Intent();
-        Log.d("onClick", (adapter.getItem(position).toString()));
+        Intent intent = new Intent(MainActivity.this,ItemView.class);
+        intent.putExtra("Item", adapter.getItem(position));//Store data for next Activity
+        startActivity(intent);
+       // Log.d("onClick", (adapter.getItem(position).toString()));
         /*
         This is were I need to change views
          */
