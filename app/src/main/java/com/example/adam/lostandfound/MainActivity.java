@@ -3,8 +3,8 @@ package com.example.adam.lostandfound;
 import android.app.ListActivity;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import org.json.JSONArray;
@@ -17,8 +17,9 @@ import java.util.Scanner;
 
 public class MainActivity extends ListActivity {
 
-    ArrayList<String> listItems = new ArrayList<>();
-    ArrayAdapter<String> adapter;
+    ArrayList<Item> listItems = new ArrayList<>();
+    Items items = new Items(null);
+    CustomAdapter adapter;
 
     public MainActivity self = null;//Singleton
     /*
@@ -52,7 +53,7 @@ public class MainActivity extends ListActivity {
 
         @Override
         protected void onPostExecute(String s) {
-            Items items = null;
+
             if(data == null)
             {
                 return;
@@ -66,14 +67,18 @@ public class MainActivity extends ListActivity {
                 e.printStackTrace();
             }
             items = new Items(data);
-            super.onPostExecute(s);
 
-            for(int i = 0; i < items.length(); i++)
+
+            adapter.addAll(items.getItemArray());
+            listItems = items.items;
+            /*for(int i = 0; i < items.length(); i++)
             {
-                listItems.add(items.items.get(i).toString());
-            }
+                //listItems.add((items.items.get(i)));
+
+            }*/
 
             adapter.notifyDataSetChanged();
+            super.onPostExecute(s);
 
         }
     }
@@ -85,7 +90,7 @@ public class MainActivity extends ListActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        adapter = new ArrayAdapter<String>(this,R.layout.row, listItems);
+        adapter = new CustomAdapter(this, R.layout.row, listItems);
 
 
         setListAdapter(adapter);
@@ -101,7 +106,9 @@ public class MainActivity extends ListActivity {
     protected void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
 
-        listItems.add(Integer.toString(position));
+
+        //Intent intent = new Intent();
+        Log.d("onClick", (adapter.getItem(position).toString()));
         /*
         This is were I need to change views
          */
