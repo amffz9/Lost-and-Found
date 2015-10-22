@@ -11,18 +11,15 @@ import android.widget.TextView;
 import java.util.List;
 
 /**
- * Created by muitprogram on 10/20/15.
+ * Created by Adam on 10/22/2015.
  */
-public class CustomAdapter extends ArrayAdapter<ItemCollection> {
-
-    public CustomAdapter(Context context, int resource, List<ItemCollection> objects) {
+public class ItemAdapter extends ArrayAdapter<Item> {
+    public ItemAdapter(Context context, int resource, List<Item> objects) {
         super(context, resource, objects);
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
-
         View v = convertView;
 
 
@@ -32,8 +29,8 @@ public class CustomAdapter extends ArrayAdapter<ItemCollection> {
             v = vi.inflate(R.layout.row, null);
         }
 
-        //Log.d("CustomAdapter", "Hello");
-        ItemCollection p = getItem(position);
+        Log.d("CustomAdapter", "Hello");
+        Item p = getItem(position);
 
         if (p != null) {
             /*
@@ -42,7 +39,7 @@ public class CustomAdapter extends ArrayAdapter<ItemCollection> {
             TextView textView = (TextView) v;
 
             //Log.d("CustomAdapter", p.foundDate);
-            textView.setText(p.item_type);
+            textView.setText(p.toString());
             /*
             Put data into views
              */

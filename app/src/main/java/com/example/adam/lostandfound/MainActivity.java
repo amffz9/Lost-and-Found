@@ -19,11 +19,14 @@ import java.util.Scanner;
 
 public class MainActivity extends ListActivity {
 
-    ArrayList<Item> listItems = new ArrayList<>();
-    Items items = new Items(null);
+    ArrayList<ItemCollection> listItems = new ArrayList<>();
+
+
     CustomAdapter adapter;
 
     public MainActivity self = null;//Singleton
+
+
     /*
     constructor
      */
@@ -43,9 +46,11 @@ public class MainActivity extends ListActivity {
 
             InputStream in;
             try {
+
                 in = new URL(params[0]).openStream();
+
                 data = new Scanner(in).useDelimiter("\\A").next();
-                return data;
+                return android.text.Html.fromHtml(data).toString();
             } catch (Exception e) {
                 e.printStackTrace();
                 return null;
@@ -56,29 +61,39 @@ public class MainActivity extends ListActivity {
         @Override
         protected void onPostExecute(String s) {
 
-            if(data == null)
+            if(s == null)
             {
                 return;
             } else {
-                Log.d("JSON", data);
+                Log.d("JSON", s);
             }
             JSONObject response = null;
             JSONArray data = null;
             try {
-                response = new JSONObject(this.data);
+                response = new JSONObject(s);
             }
             catch (JSONException e)
             {
                 e.printStackTrace();
             }
-            if (response.optString("status") == "ok") {
+            Log.d("response",response.optString("status"));
+            if (response.optString("status").equalsIgnoreCase("ok")) {
+                Log.d("Network", "Data Recieved");
                 data = response.optJSONArray("data");
             }
-            if (data != null) {
-                items = new Items(data);
+            else
+            {
+                Log.d("Network", "Data NOT Recieved");
             }
-            //adapter.addAll(items.getItemArray());
-            listItems = items.items;
+            if (data != null) {
+                for(int i = 0; i < data.length(); i++)
+                {
+                    listItems.add(new ItemCollection(data.optJSONObject(i)));
+                }
+
+            }
+
+
             /*for(int i = 0; i < items.length(); i++)
             {
                 //listItems.add((items.items.get(i)));
@@ -97,13 +112,23 @@ public class MainActivity extends ListActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        /*Intent intent = getIntent();
+        if (intent.hasExtra("Item"))
+        {
+            item = (ItemCollection)intent.getSerializableExtra("Item");
+        }
+        else
+        {
+            item = new ItemCollection(null);
+        }*/
+
+
+
         adapter = new CustomAdapter(this, R.layout.row, listItems);
 
 
         setListAdapter(adapter);
-
-
-
 
         //Change url on the executing network to what is needed
         new Network().execute("http://brettbrusda.me/api/item.php");
@@ -114,10 +139,10 @@ public class MainActivity extends ListActivity {
         super.onListItemClick(l, v, position, id);
 
 
-        Intent intent = new Intent(MainActivity.this,ItemView.class);
-        intent.putExtra("Item", adapter.getItem(position));//Store data for next Activity
+        Intent intent = new Intent(MainActivity.this,ListItemView.class);
+        intent.putExtra("Items", (ItemCollection)adapter.getItem(position));//Store data for next Activity
         startActivity(intent);
-       // Log.d("onClick", (adapter.getItem(position).toString()));
+        //Log.d("onClick", (adapter.getItem(position).toString()));
         /*
         This is were I need to change views
          */

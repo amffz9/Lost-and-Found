@@ -12,7 +12,6 @@ public class Item implements Serializable{
     public int itemId;
     public int itemTypeId;
     public int status;
-
     public String location;
     public String foundDate;
 
