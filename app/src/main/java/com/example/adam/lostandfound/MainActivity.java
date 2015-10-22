@@ -4,11 +4,13 @@ import android.app.ListActivity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.InputStream;
 import java.net.URL;
@@ -57,26 +59,31 @@ public class MainActivity extends ListActivity {
             if(data == null)
             {
                 return;
+            } else {
+                Log.d("JSON", data);
             }
+            JSONObject response = null;
             JSONArray data = null;
             try {
-                data = new JSONArray(this.data);
+                response = new JSONObject(this.data);
             }
             catch (JSONException e)
             {
                 e.printStackTrace();
             }
-            items = new Items(data);
-
-
-            adapter.addAll(items.getItemArray());
+            if (response.optString("status") == "ok") {
+                data = response.optJSONArray("data");
+            }
+            if (data != null) {
+                items = new Items(data);
+            }
+            //adapter.addAll(items.getItemArray());
             listItems = items.items;
             /*for(int i = 0; i < items.length(); i++)
             {
                 //listItems.add((items.items.get(i)));
 
             }*/
-
             adapter.notifyDataSetChanged();
             super.onPostExecute(s);
 
