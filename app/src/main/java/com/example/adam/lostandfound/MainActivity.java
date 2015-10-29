@@ -131,7 +131,7 @@ public class MainActivity extends ListActivity {
         setListAdapter(adapter);
 
         //Change url on the executing network to what is needed
-        new Network().execute("http://brettbrusda.me/api/item.php");
+        new Network().execute("http://goose.col.missouri.edu/unions/api/item");
     }
 
     @Override
