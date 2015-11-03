@@ -29,9 +29,7 @@ public class Item implements Serializable{
     @Override
     public String toString() {
 
-        return "Item Id: " + itemId + "\n"
-                + "Item Status: " + status + "\n"
-                + "Location Found: " + location + "\n"
+        return "Location Found: " + location + "\n"
                 + "Found Date: " + foundDate;
 
     }
