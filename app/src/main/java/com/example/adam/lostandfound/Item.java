@@ -29,8 +29,8 @@ public class Item implements Serializable{
     @Override
     public String toString() {
 
-        return "Location Found: " + location + "\n"
-                + "Found Date: " + foundDate;
+        return "\nLocation Found: \n" + location + "\n\n"
+                + "Found Date: \n" + foundDate + "\n";
 
     }
 }

@@ -122,10 +122,7 @@ public class MainActivity extends ListActivity {
         {
             item = new ItemCollection(null);
         }*/
-
-
-
-        adapter = new CustomAdapter(this, R.layout.row, listItems);
+        adapter = new CustomAdapter(this, R.layout.categorylistcell, listItems);
 
 
         setListAdapter(adapter);

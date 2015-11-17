@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -20,7 +21,7 @@ public class CustomAdapter extends ArrayAdapter<ItemCollection> {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, ViewGroup parent) {//dequereusablecell......
 
 
         View v = convertView;
@@ -29,7 +30,7 @@ public class CustomAdapter extends ArrayAdapter<ItemCollection> {
         if (v == null) {
             LayoutInflater vi;
             vi = LayoutInflater.from(getContext());
-            v = vi.inflate(R.layout.row, null);
+            v = (CategoryListCell)vi.inflate(R.layout.cell, null);
         }
 
         //Log.d("CustomAdapter", "Hello");
@@ -39,10 +40,12 @@ public class CustomAdapter extends ArrayAdapter<ItemCollection> {
             /*
             Load Views
              */
-            TextView textView = (TextView) v;
+            CategoryListCell cell = (CategoryListCell) v;
 
             //Log.d("CustomAdapter", p.foundDate);
-            textView.setText(p.item_type);
+            cell.setDescriptionText(p.item_type);
+            cell.setCountText(Integer.toString(p.items.size()));
+
             /*
             Put data into views
              */
