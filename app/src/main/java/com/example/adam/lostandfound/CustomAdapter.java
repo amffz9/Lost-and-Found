@@ -1,13 +1,10 @@
 package com.example.adam.lostandfound;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import java.util.List;
 
@@ -30,7 +27,7 @@ public class CustomAdapter extends ArrayAdapter<ItemCollection> {
         if (v == null) {
             LayoutInflater vi;
             vi = LayoutInflater.from(getContext());
-            v = (CategoryListCell)vi.inflate(R.layout.cell, null);
+            v = (CategoryListCell)vi.inflate(R.layout.categorycell, null);
         }
 
         //Log.d("CustomAdapter", "Hello");

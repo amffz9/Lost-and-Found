@@ -31,7 +31,7 @@ public class ItemCollection implements Serializable
 
         for (int i = 0; i < items.length() ; i++) {
 
-            Log.d("ItemCollection", "Adding Items");
+            //Log.d("ItemCollection", "Adding Items");
             this.items.add(new Item(items.optJSONObject(i)));
         }
 
