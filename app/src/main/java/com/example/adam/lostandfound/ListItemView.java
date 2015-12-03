@@ -9,20 +9,25 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Filter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ListItemView extends ListActivity {
 
     public ItemCollection items;
     public ItemAdapter itemAdapter;
 
+    private ListView lv = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        lv = getListView();
         Intent intent = getIntent();//Recieve data from ListActivity
 
         if (intent.hasExtra("Items"))
@@ -43,7 +48,7 @@ public class ListItemView extends ListActivity {
 
         //Make a Text Listener
 
-        TextWatcher listner = new TextWatcher() {
+        TextWatcher listener = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -51,6 +56,9 @@ public class ListItemView extends ListActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                Log.e("Text Changed", "OnTextChanged()");
+                itemAdapter.getFilter().filter(s);
+
 
             }
 
@@ -59,6 +67,8 @@ public class ListItemView extends ListActivity {
 
             }
         };
+        lv.setTextFilterEnabled(true);
+        search.addTextChangedListener(listener);
 
 
     }

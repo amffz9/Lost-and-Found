@@ -11,6 +11,9 @@ import android.widget.Filterable;
 import android.widget.TextView;
 
 
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,8 +21,13 @@ import java.util.List;
  */
 public class ItemAdapter extends ArrayAdapter<Item> implements Filterable
 {
-    public ItemAdapter(Context context, int resource, List<Item> objects) {
+    private ArrayList<Item> objects = null;
+    private ItemFilter filter = null;
+
+    public ItemAdapter(Context context, int resource, ArrayList<Item> objects) {
         super(context, resource, objects);
+        this.objects = objects;
+
     }
 
     @Override
@@ -36,8 +44,8 @@ public class ItemAdapter extends ArrayAdapter<Item> implements Filterable
 
         }
 
-       Log.d("ItemAdapter", "Hello");
-        Item p = getItem(position);
+       //Log.d("ItemAdapter", "Hello");
+        Item p = objects.get(position);
 
         if (p != null) {
             /*
@@ -45,7 +53,7 @@ public class ItemAdapter extends ArrayAdapter<Item> implements Filterable
              */
 
             ItemCell cell = (ItemCell)v;
-            Log.d("getView", cell.toString());
+            //Log.d("getView", cell.toString());
             cell.setLocationFound(p.location);
             cell.setDateFound(p.foundDate);
         }
@@ -55,7 +63,15 @@ public class ItemAdapter extends ArrayAdapter<Item> implements Filterable
 
     @Override
     public Filter getFilter() {
-        //TODO
-        return super.getFilter();
+
+        if(filter == null)
+        {
+            Log.d("Creating Filter","");
+            filter = new ItemFilter(objects,this);
+        }
+
+        return filter;
     }
+
+
 }
